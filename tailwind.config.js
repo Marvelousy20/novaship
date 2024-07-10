@@ -1,8 +1,21 @@
+/** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./**/*.tsx'],
+  content: ["./app/**/*.{js,jsx,ts,tsx}", "./components/**/*.{js,jsx,ts,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: "",
+        green: "#00997D",
+      },
+
+      fontFamily: {
+        fRegular: ["Federo-Regular", "sans-serif"],
+        IRegular: ["Inter-Regular", "sans-serif"],
+        IMedium: ["Inter-Medium", "sans-serif"],
+        ISemiBold: ["Inter-SemiBold", "sans-serif"],
+        IBold: ["Inter-Bold", "sans-serif"],
+      },
+    },
   },
   plugins: [],
-  corePlugins: require('tailwind-rn/unsupported-core-plugins'),
-}
+};
