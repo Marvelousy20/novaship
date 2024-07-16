@@ -14,6 +14,8 @@ interface CustomInputProps {
   secureTextEntry?: any;
   placeholder?: string;
   containerStyles?: string;
+  onChangeText?: (text: string) => void;
+  value?: string;
 }
 
 const CustomTextInput = ({
@@ -21,12 +23,14 @@ const CustomTextInput = ({
   secureTextEntry,
   placeholder,
   containerStyles,
+  onChangeText,
+  value,
 }: CustomInputProps) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(secureTextEntry);
   const [isFocused, setIsFocused] = useState(false);
 
   return (
-    <View className={`mb-6 relative ${containerStyles}`}>
+    <View className={`relative mb-6 ${containerStyles}`}>
       <View className="bg-white bg-opacity-80 self-start px-1 ml-4 z-10 shadow shadow-white absolute -top-3">
         <Text
           className={`text-sm opacity-40 ${isFocused || placeholder ? "" : ""}`}
@@ -42,18 +46,14 @@ const CustomTextInput = ({
           className="flex-1 text-base text-gray-700"
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
+          onChangeText={onChangeText}
+          value={value}
         />
         {secureTextEntry && (
           <TouchableOpacity
             onPress={() => setIsPasswordVisible(!isPasswordVisible)}
             className="text-green"
           >
-            {/* <FontAwesome
-              name={isPasswordVisible ? "eye-slash" : "eye"}
-              size={20}
-              color="gray"
-            /> */}
-
             <Ionicons
               name={isPasswordVisible ? "eye-off" : "eye"}
               size={20}

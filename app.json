@@ -19,7 +19,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.example.novaship"
     },
     "android": {
       "adaptiveIcon": {
@@ -34,6 +35,14 @@
     "plugins": [
       "expo-router",
       "expo-font"
-    ]
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "00d0f148-e7b8-49e4-a82d-a8f88041d0dd"
+      }
+    }
   }
 }

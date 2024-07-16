@@ -9,26 +9,84 @@ import {
 import CustomTextInput from "../../components/CustomTextInput";
 import CustomButton from "../../components/CustomButton";
 import { Link } from "expo-router";
+import { Formik } from "formik";
+import * as Yup from "yup";
+import { useRouter } from "expo-router";
+
+const validationSchema = Yup.object().shape({
+  userName: Yup.string().required("Username is required").label("UserName"),
+  password: Yup.string()
+    .required("Password is required")
+    .min(4)
+    .label("Password"),
+});
 
 const Login = () => {
+  const router = useRouter();
   return (
     <View className="flex-1 bg-white h-full px-4 pt-8">
       <View className="flex-1">
-        <CustomTextInput label="Username*" placeholder="Alex_M" />
-        <CustomTextInput
-          label="Password*"
-          placeholder="********"
-          secureTextEntry
-        />
-        <TouchableOpacity className="">
-          <Text className="text-green-500 text-right text-green text-sm font-IMedium">
-            Forgot Password?
-          </Text>
-        </TouchableOpacity>
+        <Formik
+          initialValues={{ userName: "", password: "" }}
+          onSubmit={(values) => {
+            console.log(values);
+            router.push("/(tabs)/track");
+          }}
+          validationSchema={validationSchema}
+        >
+          {({
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            values,
+            errors,
+            touched,
+          }) => (
+            <View>
+              <CustomTextInput
+                label="Username*"
+                placeholder="Alex_M"
+                onChangeText={handleChange("userName")}
+                value={values.userName}
+                containerStyles={
+                  errors.userName && touched.userName ? "mb-2" : "mb-6"
+                }
+              />
+              {/* Error */}
+              {errors.userName && touched.userName && (
+                <Text className="text-[12px] text-red-500 mb-6">
+                  {errors.userName} error
+                </Text>
+              )}
 
-        <View className="mt-5">
-          <CustomButton title="Log in" />
-        </View>
+              <CustomTextInput
+                label="Password*"
+                placeholder="********"
+                secureTextEntry
+                onChangeText={handleChange("password")}
+                value={values.password}
+                containerStyles={
+                  errors.password && touched.password ? "mb-2" : "mb-6"
+                }
+              />
+              {errors.password && touched.password && (
+                <Text className="text-red-500 text-[12px]">
+                  {errors.password}
+                </Text>
+              )}
+
+              <TouchableOpacity>
+                <Text className="text-green-500 text-right text-green text-sm font-IMedium">
+                  Forgot Password?
+                </Text>
+              </TouchableOpacity>
+
+              <View className="mt-5">
+                <CustomButton title="Log in" handlePress={handleSubmit} />
+              </View>
+            </View>
+          )}
+        </Formik>
 
         <View className="mt-5 flex-row gap-x-2 items-center justify-center">
           <Image
