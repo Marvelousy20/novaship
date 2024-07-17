@@ -1,11 +1,4 @@
-import {
-  View,
-  Text,
-  ScrollView,
-  SafeAreaView,
-  TouchableOpacity,
-  Image,
-} from "react-native";
+import { View, Text, TouchableOpacity, Image } from "react-native";
 import CustomTextInput from "../../components/CustomTextInput";
 import CustomButton from "../../components/CustomButton";
 import { Link } from "expo-router";
@@ -27,7 +20,7 @@ const Login = () => {
     <View className="flex-1 bg-white h-full px-4 pt-8">
       <View className="flex-1">
         <Formik
-          initialValues={{ userName: "", password: "" }}
+          initialValues={{ userName: "Marvelous", password: "1234" }}
           onSubmit={(values) => {
             console.log(values);
             router.push("/(tabs)/track");
