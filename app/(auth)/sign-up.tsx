@@ -1,9 +1,12 @@
+import { useState } from "react";
+
 import {
   Text,
   View,
   SafeAreaView,
   ScrollView,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import CustomTextInput from "../../components/CustomTextInput";
 import CustomCheckbox from "../../components/CustomCheckbox";
@@ -11,6 +14,8 @@ import CustomButton from "../../components/CustomButton";
 import { Link } from "expo-router";
 import * as Yup from "yup";
 import { Formik } from "formik";
+import { registerUser } from "../(services)/api/api";
+import { useMutation } from "@tanstack/react-query";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required("Email is required").email().label("Email"),
@@ -23,13 +28,21 @@ const validationSchema = Yup.object().shape({
   phoneNumber: Yup.string()
     .required("Phone number is required")
     .label("Phone Number"),
-  // confirmPassword: Yup.string().oneOf(
-  //   [Yup.ref("password")],
-  //   "Passwords must match"
-  // ),
+  agreeToTerms: Yup.boolean()
+    .required("You must agree to the terms and conditions")
+    .oneOf([true], "You must agree to the terms and conditions"),
+  understandWithdrawal: Yup.boolean()
+    .required("You must acknowledge the right of withdrawal")
+    .oneOf([true], "You must acknowledge the right of withdrawal"),
 });
 
 const SignIn = () => {
+  const mutation = useMutation({
+    mutationFn: registerUser,
+    mutationKey: ["register"],
+  });
+  console.log(mutation);
+
   return (
     <SafeAreaView className="flex-1 h-full bg-white">
       <View className="pt-8">
@@ -41,8 +54,27 @@ const SignIn = () => {
               userName: "",
               password: "",
               phoneNumber: "",
+              agreeToTerms: false,
+              understandWithdrawal: false,
             }}
-            onSubmit={(values) => console.log(values)}
+            onSubmit={(values) => {
+              console.log(values);
+              mutation
+                .mutateAsync(values)
+                .then((data) => {
+                  mutation
+                    .mutateAsync(values)
+                    .then((data) => {
+                      console.log("data", data);
+                    })
+                    .catch((error) => {
+                      console.log("error", error);
+                    });
+                })
+                .catch((error) => {
+                  console.log("error", error);
+                });
+            }}
             validationSchema={validationSchema}
           >
             {({
@@ -52,6 +84,7 @@ const SignIn = () => {
               touched,
               values,
               handleSubmit,
+              setFieldValue,
             }) => (
               <View className="flex-1 h-full px-4">
                 <Text className="text-sm font-IRegular text-[#777777]">
@@ -63,6 +96,19 @@ const SignIn = () => {
                   ability to give instructions to your friendly NovaShip driver,
                   and more.
                 </Text>
+                {mutation?.isError && (
+                  // <Text>{mutation?.error?.response?.data?.message}</Text>
+                  <Text className="text-[12px] text-red-500 text-center mt-4">
+                    Error occured
+                  </Text>
+                )}
+
+                {mutation?.isSuccess && (
+                  // <Text>{mutation?.error?.response?.data?.message}</Text>
+                  <Text className="text-[12px] text-green text-center mt-4">
+                    Registration successful
+                  </Text>
+                )}
 
                 <View className="mt-7">
                   <CustomTextInput
@@ -96,26 +142,10 @@ const SignIn = () => {
 
                   <View className="flex-row w-full justify-between">
                     <CustomTextInput
-                      label="Code Phone"
-                      placeholder="US +1"
-                      // containerStyles="w-[36%]"
-                      value={values.phoneNumber}
-                      onChangeText={handleChange("pboneNumber")}
-                      containerStyles={`w-[36%] ${
-                        errors.phoneNumber && touched.phoneNumber
-                          ? "mb-2"
-                          : "mb-6"
-                      }`}
-                    />
-                    {errors.phoneNumber && touched.phoneNumber && (
-                      <Text className="text-red-500 text-[12px] mb-6">
-                        {errors.phoneNumber}
-                      </Text>
-                    )}
-                    <CustomTextInput
                       label="Phone Number"
-                      placeholder="444 1234 567"
-                      containerStyles={`w-[59%] ${
+                      placeholder="US +1 444 1234 567"
+                      onChangeText={handleChange("phoneNumber")}
+                      containerStyles={`w-full ${
                         errors.phoneNumber && touched.phoneNumber
                           ? "mb-2"
                           : "mb-6"
@@ -168,7 +198,12 @@ const SignIn = () => {
 
                 <View className="flex-row gap-x-2.5 max-w-[330px] mt-6">
                   <View className="mt-1">
-                    <CustomCheckbox />
+                    <CustomCheckbox
+                      checked={values.agreeToTerms}
+                      onChange={() =>
+                        setFieldValue("agreeToTerms", !values.agreeToTerms)
+                      }
+                    />
                   </View>
                   <Text className="text-[#777777] text-sm leading-[22px]">
                     I agree to the NovaShip Technology Agreement and the
@@ -176,10 +211,23 @@ const SignIn = () => {
                     be found at . the links set forth above.
                   </Text>
                 </View>
+                {errors.agreeToTerms && touched.agreeToTerms && (
+                  <Text className="text-red-500 text-[12px] mb-6">
+                    {errors.agreeToTerms}
+                  </Text>
+                )}
 
                 <View className="flex-row gap-x-2.5 mt-6 max-w-[330px]">
                   <View className="mt-1">
-                    <CustomCheckbox />
+                    <CustomCheckbox
+                      checked={values.understandWithdrawal}
+                      onChange={() =>
+                        setFieldValue(
+                          "understandWithdrawal",
+                          !values.understandWithdrawal
+                        )
+                      }
+                    />
                   </View>
                   <Text className="text-[#777777] text-sm leading-[22px]">
                     I understand I have the 14-day right of withdrawal and I
@@ -188,6 +236,12 @@ const SignIn = () => {
                     available to me.
                   </Text>
                 </View>
+                {errors.understandWithdrawal &&
+                  touched.understandWithdrawal && (
+                    <Text className="text-red-500 text-[12px] mb-6">
+                      {errors.understandWithdrawal}
+                    </Text>
+                  )}
 
                 <View className="flex-row items-center justify-center mt-6">
                   <View className="w-1.5 h-1.5 rounded-full bg-[#DEE2DD]" />
@@ -196,7 +250,15 @@ const SignIn = () => {
                 </View>
 
                 <View className="mt-6">
-                  <CustomButton title="Sign up" handlePress={handleSubmit} />
+                  {mutation?.isPending ? (
+                    <ActivityIndicator
+                      size="small"
+                      color="white"
+                      className="bg-green text-white px-6 rounded-[30px] min-h-[55px] justify-center items-center"
+                    />
+                  ) : (
+                    <CustomButton title="Sign up" handlePress={handleSubmit} />
+                  )}
 
                   <TouchableOpacity className="font-IRegular">
                     <View className="flex-row items-center gap-1 justify-center text-[16px] mt-4">
@@ -208,22 +270,22 @@ const SignIn = () => {
                     </View>
                   </TouchableOpacity>
                 </View>
+
+                <View className="mt-10">
+                  <Text className="text-center max-w-[250px] mx-auto font-IMedium text-[12px] leading-[18px]">
+                    By clicking “Sign up” you agree with our{" "}
+                    <Link href="/" className="text-green underline">
+                      Tariff/Terms & Conditions
+                    </Link>{" "}
+                    &{" "}
+                    <Link href="/" className="text-green underline">
+                      Privacy Policy
+                    </Link>
+                  </Text>
+                </View>
               </View>
             )}
           </Formik>
-
-          <View className="mt-10">
-            <Text className="text-center max-w-[250px] mx-auto font-IMedium text-[12px] leading-[18px]">
-              By clicking “Sign up” you agree with our{" "}
-              <Link href="/" className="text-green underline">
-                Tariff/Terms & Conditions
-              </Link>{" "}
-              &{" "}
-              <Link href="/" className="text-green underline">
-                Privacy Policy
-              </Link>
-            </Text>
-          </View>
         </ScrollView>
       </View>
     </SafeAreaView>
