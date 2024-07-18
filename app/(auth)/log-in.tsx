@@ -1,4 +1,10 @@
-import { View, Text, TouchableOpacity, Image, ActivityIndicator } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  ActivityIndicator,
+} from "react-native";
 import CustomTextInput from "../../components/CustomTextInput";
 import CustomButton from "../../components/CustomButton";
 import { Link } from "expo-router";
@@ -38,23 +44,23 @@ const Login = () => {
           initialValues={{ userName: "Marvelous", password: "1234" }}
           onSubmit={(values) => {
             console.log("values", values);
-            mutation
-              .mutateAsync(values)
-              .then((data) => {
-                mutation
-                  .mutateAsync(values)
-                  .then((data) => {
-                    console.log("data", data);
-                  })
-                  .catch((error) => {
-                    console.log("error", error);
-                  });
-              })
-              .catch((error) => {
-                console.log("error", error);
-              });
+            // mutation
+            //   .mutateAsync(values)
+            //   .then((data) => {
+            //     mutation
+            //       .mutateAsync(values)
+            //       .then((data) => {
+            //         console.log("data", data);
+            //       })
+            //       .catch((error) => {
+            //         console.log("error", error);
+            //       });
+            //   })
+            //   .catch((error) => {
+            //     console.log("error", error);
+            //   });
 
-            // router.push("/(tabs)/track");
+            router.push("/(tabs)/track");
           }}
           validationSchema={validationSchema}
         >

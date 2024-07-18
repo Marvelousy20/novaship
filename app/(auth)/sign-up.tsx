@@ -28,12 +28,12 @@ const validationSchema = Yup.object().shape({
   phoneNumber: Yup.string()
     .required("Phone number is required")
     .label("Phone Number"),
-  agreeToTerms: Yup.boolean()
-    .required("You must agree to the terms and conditions")
-    .oneOf([true], "You must agree to the terms and conditions"),
-  understandWithdrawal: Yup.boolean()
-    .required("You must acknowledge the right of withdrawal")
-    .oneOf([true], "You must acknowledge the right of withdrawal"),
+  // agreeToTerms: Yup.boolean()
+  //   .required("You must agree to the terms and conditions")
+  //   .oneOf([true], "You must agree to the terms and conditions"),
+  // understandWithdrawal: Yup.boolean()
+  //   .required("You must acknowledge the right of withdrawal")
+  //   .oneOf([true], "You must acknowledge the right of withdrawal"),
 });
 
 const SignIn = () => {
@@ -54,8 +54,8 @@ const SignIn = () => {
               userName: "",
               password: "",
               phoneNumber: "",
-              agreeToTerms: false,
-              understandWithdrawal: false,
+              // agreeToTerms: false,
+              // understandWithdrawal: false,
             }}
             onSubmit={(values) => {
               console.log(values);
@@ -196,7 +196,7 @@ const SignIn = () => {
                   <View className="w-1.5 h-1.5 rounded-full bg-[#DEE2DD]" />
                 </View>
 
-                <View className="flex-row gap-x-2.5 max-w-[330px] mt-6">
+                {/* <View className="flex-row gap-x-2.5 max-w-[330px] mt-6">
                   <View className="mt-1">
                     <CustomCheckbox
                       checked={values.agreeToTerms}
@@ -215,9 +215,9 @@ const SignIn = () => {
                   <Text className="text-red-500 text-[12px] mb-6">
                     {errors.agreeToTerms}
                   </Text>
-                )}
+                )} */}
 
-                <View className="flex-row gap-x-2.5 mt-6 max-w-[330px]">
+                {/* <View className="flex-row gap-x-2.5 mt-6 max-w-[330px]">
                   <View className="mt-1">
                     <CustomCheckbox
                       checked={values.understandWithdrawal}
@@ -241,7 +241,7 @@ const SignIn = () => {
                     <Text className="text-red-500 text-[12px] mb-6">
                       {errors.understandWithdrawal}
                     </Text>
-                  )}
+                  )} */}
 
                 <View className="flex-row items-center justify-center mt-6">
                   <View className="w-1.5 h-1.5 rounded-full bg-[#DEE2DD]" />
