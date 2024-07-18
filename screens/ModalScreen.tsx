@@ -9,7 +9,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Icon } from "@rneui/themed";
 import { View, TouchableOpacity, Text, FlatList } from "react-native";
 import { useTailwind } from "tailwind-rn/dist";
-import DeliveryCard from "../components/DeliveryCard";
+import DeliveryCard from "../components/OldDeliveryCard";
 import useCustomerOrders from "../hooks/useCustomerOrders";
 import { RootStackParamList } from "../navigator/RootNavigator";
 import { TabStackParamList } from "../navigator/TabNavigator";

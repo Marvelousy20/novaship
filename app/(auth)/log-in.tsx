@@ -1,10 +1,18 @@
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  ActivityIndicator,
+} from "react-native";
 import CustomTextInput from "../../components/CustomTextInput";
 import CustomButton from "../../components/CustomButton";
 import { Link } from "expo-router";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { useRouter } from "expo-router";
+import { useMutation } from "@tanstack/react-query";
+import { loginUser } from "../(services)/api/api";
 
 const validationSchema = Yup.object().shape({
   userName: Yup.string().required("Username is required").label("UserName"),
@@ -15,6 +23,19 @@ const validationSchema = Yup.object().shape({
 });
 
 const Login = () => {
+  const mutation = useMutation({
+    mutationFn: loginUser,
+    mutationKey: ["login"],
+    onSuccess: (data) => {
+      console.log(data);
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
+  console.log("mutation", mutation);
+
   const router = useRouter();
   return (
     <View className="flex-1 bg-white h-full px-4 pt-8">
@@ -22,7 +43,23 @@ const Login = () => {
         <Formik
           initialValues={{ userName: "Marvelous", password: "1234" }}
           onSubmit={(values) => {
-            console.log(values);
+            console.log("values", values);
+            // mutation
+            //   .mutateAsync(values)
+            //   .then((data) => {
+            //     mutation
+            //       .mutateAsync(values)
+            //       .then((data) => {
+            //         console.log("data", data);
+            //       })
+            //       .catch((error) => {
+            //         console.log("error", error);
+            //       });
+            //   })
+            //   .catch((error) => {
+            //     console.log("error", error);
+            //   });
+
             router.push("/(tabs)/track");
           }}
           validationSchema={validationSchema}
@@ -48,7 +85,7 @@ const Login = () => {
               {/* Error */}
               {errors.userName && touched.userName && (
                 <Text className="text-[12px] text-red-500 mb-6">
-                  {errors.userName} error
+                  {errors.userName}
                 </Text>
               )}
 

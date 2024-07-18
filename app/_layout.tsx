@@ -5,6 +5,8 @@ import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import React from "react";
+import queryClient from "./(services)/queryClient";
+import { QueryClientProvider } from "@tanstack/react-query";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -28,35 +30,44 @@ const RootLayout = () => {
   }
 
   return (
-    <Stack>
-      <Stack.Screen name="index" options={{ headerShown: false }} />
-      <Stack.Screen
-        name="(auth)"
-        options={{
-          headerShown: true,
-          title: "",
-          headerLeft: () => (
-            <View className="flex-row items-center justify-center gap-6">
-              <View className="border rounded-xl p-3 border-[#E8E6EA]">
-                <Ionicons
-                  name="chevron-back-outline"
-                  size={24}
-                  color={"#00997D"}
-                />
+    <QueryClientProvider client={queryClient}>
+      <Stack>
+        <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="(auth)"
+          options={{
+            headerShown: true,
+            title: "",
+            headerLeft: () => (
+              <View className="flex-row items-center justify-center gap-6">
+                <View className="border rounded-xl p-3 border-[#E8E6EA]">
+                  <Ionicons
+                    name="chevron-back-outline"
+                    size={24}
+                    color={"#00997D"}
+                  />
+                </View>
+                <Text className="font-ISemiBold text-xl">Profile</Text>
               </View>
-              <Text className="font-ISemiBold text-xl">Profile</Text>
-            </View>
-          ),
-          headerShadowVisible: false,
-        }}
-      />
-      <Stack.Screen
-        name="(tabs)"
-        options={{
-          headerShown: false,
-        }}
-      />
-    </Stack>
+            ),
+            headerShadowVisible: false,
+          }}
+        />
+        <Stack.Screen
+          name="(tabs)"
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="track/[id]"
+          options={{
+            headerShown: false,
+          }}
+        />
+      </Stack>
+    </QueryClientProvider>
   );
 };
 

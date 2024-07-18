@@ -17,7 +17,6 @@ import Track from "../../components/Track/Track";
 import ToMe from "../../components/Track/ToMe";
 import FromMe from "../../components/Track/FromMe";
 import Delivered from "../../components/Track/Delivered";
-import { NavigationContainer } from "@react-navigation/native";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -88,10 +87,70 @@ const TrackTab = () => {
                 tabBarStyle: { backgroundColor: "transparent" },
               }}
             >
-              <Tab.Screen name="Track" component={Track} />
-              <Tab.Screen name="To Me" component={ToMe} />
-              <Tab.Screen name="From Me" component={FromMe} />
-              <Tab.Screen name="Delivered" component={Delivered} />
+              <Tab.Screen
+                name="Track"
+                component={Track}
+                options={{
+                  title: "Sign up",
+                  tabBarLabel: ({ focused }) => (
+                    <Text
+                      className={`font-ISemiBold text-[16px] ${
+                        focused ? "text-green" : "text-[#ADAFBB]"
+                      }`}
+                    >
+                      Track
+                    </Text>
+                  ),
+                }}
+              />
+              <Tab.Screen
+                name="To Me"
+                component={ToMe}
+                options={{
+                  title: "Sign up",
+                  tabBarLabel: ({ focused }) => (
+                    <Text
+                      className={`font-ISemiBold text-[16px] ${
+                        focused ? "text-green" : "text-[#ADAFBB]"
+                      }`}
+                    >
+                      To Me
+                    </Text>
+                  ),
+                }}
+              />
+              <Tab.Screen
+                name="From Me"
+                component={FromMe}
+                options={{
+                  title: "Sign up",
+                  tabBarLabel: ({ focused }) => (
+                    <Text
+                      className={`font-ISemiBold text-[16px] ${
+                        focused ? "text-green" : "text-[#ADAFBB]"
+                      }`}
+                    >
+                      From Me
+                    </Text>
+                  ),
+                }}
+              />
+              <Tab.Screen
+                name="Delivered"
+                component={Delivered}
+                options={{
+                  title: "Sign up",
+                  tabBarLabel: ({ focused }) => (
+                    <Text
+                      className={`font-ISemiBold text-[16px] ${
+                        focused ? "text-green" : "text-[#ADAFBB]"
+                      }`}
+                    >
+                      Delivered
+                    </Text>
+                  ),
+                }}
+              />
             </Tab.Navigator>
           </View>
         </SafeAreaView>

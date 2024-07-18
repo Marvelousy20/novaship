@@ -9,7 +9,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useLayoutEffect } from "react";
 import { View, Text } from "react-native";
 import { useTailwind } from "tailwind-rn/dist";
-import DeliveryCard from "../components/DeliveryCard";
+import DeliveryCard from "../components/OldDeliveryCard";
 import { RootStackParamList } from "../navigator/RootNavigator";
 import { TabStackParamList } from "../navigator/TabNavigator";
 
