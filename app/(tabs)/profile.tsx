@@ -12,6 +12,7 @@ import { Image } from "react-native";
 import React from "react";
 import TrackerProgress from "../../components/Profile/TrackerProgress";
 import ProfileInfo from "../../components/Profile/ProfileInfo";
+import ProfileHero from "../../components/Profile/ProfileHero";
 
 const ProfileTab = () => {
   return (
@@ -34,7 +35,9 @@ const ProfileTab = () => {
           </View>
         </View>
       </View>
-      <View>{/* <ProfileHero /> */}</View>
+      <View className="flex-1">
+        <ProfileHero />
+      </View>
 
       <View>
         <TrackerProgress />

@@ -114,7 +114,7 @@ export default function App() {
             />
 
             <Link
-              href="/contact"
+              href="/(tabs)/profile"
               className="text-white underline text-[16px] mt-[25px]"
             >
               Learn more
