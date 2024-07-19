@@ -3,6 +3,8 @@ import { Tabs, Redirect } from "expo-router";
 import Track from "../../assets/app/track.png";
 import Ship from "../../assets/app/ship.png";
 import Profile from "../../assets/app/profile.png";
+import HamburgerMenu from "../../components/Hamburger";
+import { useMenu } from "../../context/MenuContext";
 
 interface TabProps {
   icon: any;
@@ -26,8 +28,10 @@ const TabIcon = ({ icon, color, name, focused }: TabProps) => {
 };
 
 const TabsLayout = () => {
+  const { isMenuOpen, setIsMenuOpen } = useMenu();
   return (
     <>
+      {isMenuOpen && <HamburgerMenu setIsMenuOpen={setIsMenuOpen} />}
       <Tabs
         screenOptions={{
           tabBarShowLabel: false,

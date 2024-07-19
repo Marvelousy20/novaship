@@ -8,8 +8,11 @@ import {
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useMenu } from "../context/MenuContext";
 
 export default function DetailsHeader() {
+  const { setIsMenuOpen } = useMenu();
+
   return (
     <View className="">
       <View className="">
@@ -31,7 +34,9 @@ export default function DetailsHeader() {
               </View>
 
               <View>
-                <Ionicons name="arrow-back-outline" size={24} color={"white"} />
+                <TouchableOpacity onPress={() => setIsMenuOpen(true)}>
+                  <Image source={require("../assets/app/whiteHamburger.png")} />
+                </TouchableOpacity>
               </View>
             </View>
 

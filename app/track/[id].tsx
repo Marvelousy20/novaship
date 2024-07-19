@@ -5,18 +5,22 @@ import {
   TouchableOpacity,
   ImageBackground,
   ScrollView,
+  Image,
 } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import DetailsHeader from "../../components/DetailsHeader";
 import ProgressBar from "../../components/ProgressBar";
 import { Ionicons } from "@expo/vector-icons";
+import { useMenu } from "../../context/MenuContext";
+import HamburgerMenu from "../../components/Hamburger";
 
 const TrackDetail = () => {
   const { id } = useLocalSearchParams();
 
   const [isShipmentOpen, setIsShipmentOpen] = useState(false);
   const [isShipmentProgressOpen, setIsShipmentProgressOpen] = useState(false);
+  const { isMenuOpen, setIsMenuOpen } = useMenu();
 
   return (
     <View className="flex-1">
@@ -190,6 +194,8 @@ const TrackDetail = () => {
           </View>
         </ScrollView>
       </View>
+
+      {isMenuOpen && <HamburgerMenu setIsMenuOpen={setIsMenuOpen} />}
     </View>
   );
 };

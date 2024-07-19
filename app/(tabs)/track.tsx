@@ -17,11 +17,15 @@ import Track from "../../components/Track/Track";
 import ToMe from "../../components/Track/ToMe";
 import FromMe from "../../components/Track/FromMe";
 import Delivered from "../../components/Track/Delivered";
+import { useMenu } from "../../context/MenuContext";
 
 const Tab = createMaterialTopTabNavigator();
 
 const TrackTab = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { setIsMenuOpen } = useMenu();
+
+  const menuItems = [];
 
   const handleToggle = () => {
     setIsOpen(!isOpen);
@@ -59,11 +63,14 @@ const TrackTab = () => {
                   color="white"
                 />
                 <Text className="h-[40px] w-[1px] bg-[#E8E6EA4D]"></Text>
-                <Ionicons
-                  name="notifications-outline"
-                  size={24}
-                  color="white"
-                />
+                <TouchableOpacity
+                  onPress={() => setIsMenuOpen(true)}
+                  className="items-center"
+                >
+                  <Image
+                    source={require("../../assets/app/whiteHamburger.png")}
+                  />
+                </TouchableOpacity>
               </View>
             </View>
 
