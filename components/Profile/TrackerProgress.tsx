@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 const TrackerProgress = () => {
   return (
-    <SafeAreaView className="flex-row items-center justify-between px-4">
+    <SafeAreaView className="flex-row items-start justify-between px-4">
       <TouchableOpacity>
         <View className="bg-[#ccebe5] border border-transparent px-4 py-7 rounded-[16px] items-center">
           <Text className=" font-semibold text-sm text-[#414A53]">
