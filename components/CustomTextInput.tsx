@@ -16,6 +16,8 @@ interface CustomInputProps {
   containerStyles?: string;
   onChangeText?: (text: string) => void;
   value?: string;
+  multiline?: boolean;
+  numberOfLines?: number;
 }
 
 const CustomTextInput = ({
@@ -25,6 +27,8 @@ const CustomTextInput = ({
   containerStyles,
   onChangeText,
   value,
+  multiline,
+  numberOfLines,
 }: CustomInputProps) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(secureTextEntry);
   const [isFocused, setIsFocused] = useState(false);
@@ -48,6 +52,8 @@ const CustomTextInput = ({
           onBlur={() => setIsFocused(false)}
           onChangeText={onChangeText}
           value={value}
+          multiline={multiline}
+          numberOfLines={numberOfLines}
         />
         {secureTextEntry && (
           <TouchableOpacity

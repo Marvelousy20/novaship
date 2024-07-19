@@ -3,7 +3,7 @@ import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import ProgressBar from "./ProgressBar";
 import { Link } from "expo-router";
-import { Delivery } from "../app/type";
+import { Delivery } from "../type";
 
 const DeliveryCard = ({
   id,

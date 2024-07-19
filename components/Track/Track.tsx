@@ -1,7 +1,7 @@
 import { View, Text, ScrollView } from "react-native";
 import React from "react";
 import DeliveryCard from "../DeliveryCard";
-import { Delivery } from "../../app/type";
+import { Delivery } from "../../type";
 
 const deliveries: Delivery[] = [
   {
