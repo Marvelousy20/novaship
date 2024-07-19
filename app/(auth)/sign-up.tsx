@@ -17,7 +17,7 @@ import { Formik } from "formik";
 import { registerUser } from "../(services)/api/api";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const validationSchema = Yup.object().shape({
   email: Yup.string().required("Email is required").email().label("Email"),
   fullName: Yup.string().required("Full Name is required").label("Full Name"),
@@ -72,8 +72,19 @@ const SignIn = () => {
               console.log("Submitting", formData);
               mutation
                 .mutateAsync(formData)
-                .then((data) => {
+                .then(async (data) => {
                   console.log("Registration successful", data);
+                  try {
+                    // Store the data in AsyncStorage
+                    await AsyncStorage.setItem(
+                      "verifiedEmail",
+                      JSON.stringify(data)
+                    );
+                    console.log("email", data);
+                  } catch (e) {
+                    console.error("Failed to save the data to the storage", e);
+                  }
+
                   router.push("/verifyOtp");
                 })
                 .catch((error) => {
@@ -145,7 +156,7 @@ const SignIn = () => {
                     </Text>
                   )}
 
-                  <View className="flex-row w-full justify-between">
+                  <View className="flex-row justify-between w-full">
                     <CustomTextInput
                       label="Phone Number"
                       placeholder="US +1 444 1234 567"
@@ -269,7 +280,7 @@ const SignIn = () => {
                     <View className="flex-row items-center gap-1 justify-center text-[16px] mt-4">
                       <Text>Already have an account?</Text>
 
-                      <Text className="text-green-500 text-green text-sm font-IMedium">
+                      <Text className="text-sm text-green-500 text-green font-IMedium">
                         <Link href="/">Log in</Link>
                       </Text>
                     </View>
@@ -279,11 +290,11 @@ const SignIn = () => {
                 <View className="mt-10">
                   <Text className="text-center max-w-[250px] mx-auto font-IMedium text-[12px] leading-[18px]">
                     By clicking “Sign up” you agree with our{" "}
-                    <Link href="/" className="text-green underline">
+                    <Link href="/" className="underline text-green">
                       Tariff/Terms & Conditions
                     </Link>{" "}
                     &{" "}
-                    <Link href="/" className="text-green underline">
+                    <Link href="/" className="underline text-green">
                       Privacy Policy
                     </Link>
                   </Text>

@@ -8,7 +8,6 @@ import React from "react";
 import queryClient from "./(services)/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { useNavigation } from "@react-navigation/native";
-
 SplashScreen.preventAutoHideAsync();
 
 const RootLayout = () => {
@@ -52,7 +51,7 @@ const RootLayout = () => {
                       />
                     </TouchableOpacity>
                   </View>
-                  <Text className="font-ISemiBold text-xl">Profile</Text>
+                  <Text className="text-xl font-ISemiBold">Profile</Text>
                 </View>
               );
             },
