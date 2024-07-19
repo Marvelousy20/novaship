@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const api = `https://novaship.onrender.com/user`;
+export const api = `https://novaship.onrender.com/user`;
 
 type LoginType = {
   userName: string;

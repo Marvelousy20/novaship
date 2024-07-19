@@ -88,7 +88,6 @@ export default function App() {
                   fontFamily="Arial"
                 />
               </View> */}
-
               <Text
                 className="text-white text-xl text-center font-fRegular leading-[31px]"
                 style={styles.mainText}

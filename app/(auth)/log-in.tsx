@@ -12,10 +12,11 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import { useRouter } from "expo-router";
 import { useMutation } from "@tanstack/react-query";
-import { loginUser } from "../(services)/api/api";
+import { api, loginUser } from "../(services)/api/api";
+import axios from "axios";
 
 const validationSchema = Yup.object().shape({
-  userName: Yup.string().required("Username is required").label("UserName"),
+  email: Yup.string().required("Email is required").email().label("Email"),
   password: Yup.string()
     .required("Password is required")
     .min(4)
@@ -23,45 +24,51 @@ const validationSchema = Yup.object().shape({
 });
 
 const Login = () => {
-  const mutation = useMutation({
-    mutationFn: loginUser,
-    mutationKey: ["login"],
-    onSuccess: (data) => {
-      console.log(data);
+  const router = useRouter();
+  const { mutate, isPending } = useMutation({
+    mutationFn: async (data: { email: string; password: string }) => {
+      await axios.patch(`${api}/login`, data);
     },
-    onError: (error) => {
-      console.log(error);
+    mutationKey: ["verify"],
+    onSuccess(data) {
+      console.log("Successfully", data);
+      router.push("/(tabs)/track");
+    },
+
+    onError(error) {
+      const errorData = error as any;
+
+      const errorObject = errorData;
+      let errorMessage;
+
+      if (typeof errorObject === "object" && errorObject !== null) {
+        console.log(
+          "errors:",
+          errorData,
+          errorData?.data?.message || errorData?.status
+        );
+      } else if (errorObject === null) {
+        console.log("other:", errorData);
+      } else {
+        console.log("Network issues");
+      }
     },
   });
 
-  console.log("mutation", mutation);
+  const handleSubmit = (values: any) => {
+    console.log("login: ", values);
+    mutate({
+      email: values.email,
+      password: values.password,
+    });
+  };
 
-  const router = useRouter();
   return (
     <View className="flex-1 bg-white h-full px-4 pt-8">
       <View className="flex-1">
         <Formik
-          initialValues={{ userName: "Marvelous", password: "1234" }}
-          onSubmit={(values) => {
-            console.log("values", values);
-            // mutation
-            //   .mutateAsync(values)
-            //   .then((data) => {
-            //     mutation
-            //       .mutateAsync(values)
-            //       .then((data) => {
-            //         console.log("data", data);
-            //       })
-            //       .catch((error) => {
-            //         console.log("error", error);
-            //       });
-            //   })
-            //   .catch((error) => {
-            //     console.log("error", error);
-            //   });
-
-            router.push("/(tabs)/track");
-          }}
+          initialValues={{ email: "", password: "" }}
+          onSubmit={handleSubmit}
           validationSchema={validationSchema}
         >
           {({
@@ -74,18 +81,18 @@ const Login = () => {
           }) => (
             <View>
               <CustomTextInput
-                label="Username*"
+                label="Email*"
                 placeholder="Alex_M"
-                onChangeText={handleChange("userName")}
-                value={values.userName}
+                onChangeText={handleChange("email")}
+                value={values.email}
                 containerStyles={
-                  errors.userName && touched.userName ? "mb-2" : "mb-6"
+                  errors.email && touched.email ? "mb-2" : "mb-6"
                 }
               />
               {/* Error */}
-              {errors.userName && touched.userName && (
+              {errors.email && touched.email && (
                 <Text className="text-[12px] text-red-500 mb-6">
-                  {errors.userName}
+                  {errors.email}
                 </Text>
               )}
 
@@ -110,10 +117,17 @@ const Login = () => {
                   Forgot Password?
                 </Text>
               </TouchableOpacity>
-
-              <View className="mt-5">
-                <CustomButton title="Log in" handlePress={handleSubmit} />
-              </View>
+              {isPending ? (
+                <ActivityIndicator
+                  size="small"
+                  color="white"
+                  className="bg-green text-white px-6 rounded-[30px] min-h-[55px] justify-center items-center"
+                />
+              ) : (
+                <View className="mt-5">
+                  <CustomButton title="Log in" handlePress={handleSubmit} />
+                </View>
+              )}
             </View>
           )}
         </Formik>

@@ -1,9 +1,15 @@
-import { SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  Button,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { ImageBackground, TouchableOpacity, Image } from "react-native";
+import { Image } from "react-native";
 
 import React from "react";
-import ProfileHero from "../../components/Profile/ProfileHero";
 import TrackerProgress from "../../components/Profile/TrackerProgress";
 import ProfileInfo from "../../components/Profile/ProfileInfo";
 
@@ -20,11 +26,11 @@ const ProfileTab = () => {
                 color={"#00997D"}
               />
             </View>
-            <Text className="font-ISemiBold text-xl">Profile</Text>
+            <Text className="text-xl font-ISemiBold">Profile</Text>
           </View>
 
           <View className="flex-row items-center">
-            <Ionicons name="notifications-outline" size={24} color="white" />
+            <Image source={require("../../assets/app/hamburger.png")} />
           </View>
         </View>
       </View>
