@@ -141,6 +141,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#00997D",
     justifyContent: "center",
     alignItems: "center",
+    zIndex: 1000,
   },
 });
 

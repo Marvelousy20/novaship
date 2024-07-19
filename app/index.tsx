@@ -88,7 +88,6 @@ export default function App() {
                   fontFamily="Arial"
                 />
               </View> */}
-
               <Text
                 className="text-white text-xl text-center font-fRegular leading-[31px]"
                 style={styles.mainText}
@@ -115,7 +114,7 @@ export default function App() {
             />
 
             <Link
-              href="/contact"
+              href="/(tabs)/profile"
               className="text-white underline text-[16px] mt-[25px]"
             >
               Learn more

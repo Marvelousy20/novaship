@@ -83,11 +83,11 @@ export default function SendPackage({ navigation }: any) {
       <View className="mt-[30px]">
         <Text className="font-semibold text-lg leading-[27px]">Delivery Type</Text>
 
-        <TouchableOpacity onPress={() => navigation.navigate('ShipmentAddress')} className="mt-[25px] border-[#E8E6EA] border h-[58px] px-[15px] mx-[15px] rounded-[10px] relative flex-row items-center justify-between">
+        <View className="mt-[25px] border-[#E8E6EA] border h-[58px] px-[15px] mx-[15px] rounded-[10px] relative flex-row items-center justify-between">
           <Text className="text-xs leading-[18px] absolute -top-2 left-5 bg-gray-100 px-2">Type*</Text>
           <Text className="leading-[21px] text-sm my-auto">Select Delivery Type</Text>
           <Image source={require('../../assets/app/grayCaretDown.png')} />
-        </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
