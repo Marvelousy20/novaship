@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import { useEffect } from "react";
+import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
+import { useEffect, useState } from "react";
 import { Slot, Stack } from "expo-router";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
@@ -8,6 +8,8 @@ import React from "react";
 import queryClient from "./(services)/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { useNavigation } from "@react-navigation/native";
+import HamburgerMenu from "../components/Hamburger";
+import HamburgerIcon from "../components/HamburgerIcon";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -19,6 +21,8 @@ const RootLayout = () => {
     "Inter-Bold": require("../assets/fonts/Inter-Bold.ttf"),
     "Inter-SemiBold": require("../assets/fonts/Inter-SemiBold.ttf"),
   });
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     if (error) throw error;
@@ -100,7 +104,38 @@ const RootLayout = () => {
             headerShadowVisible: false,
           }}
         />
+
+        <Stack.Screen
+          name="contact"
+          options={{
+            headerShown: true,
+            title: "",
+            headerLeft: () => {
+              return (
+                <View className="">
+                  <Image source={require("../assets/app/logo2.png")} />
+                </View>
+              );
+            },
+
+            headerRight: () => {
+              return (
+                <TouchableOpacity
+                  className="mt-3"
+                  onPress={() => setIsMenuOpen(!isMenuOpen)}
+                >
+                  <Image
+                    source={require("../assets/app/coloredHamburger.png")}
+                  />
+                </TouchableOpacity>
+              );
+            },
+            headerShadowVisible: false,
+          }}
+        />
       </Stack>
+
+      {isMenuOpen && <HamburgerMenu setIsMenuOpen={setIsMenuOpen} />}
     </QueryClientProvider>
   );
 };
