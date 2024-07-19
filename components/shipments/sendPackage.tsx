@@ -102,25 +102,6 @@ export default function SendPackage({ navigation }: any) {
               <Text className="text-[#414A53] text-sm leading-[21px] pt-[5px]">{pckg.type}</Text>
             </TouchableOpacity>
           ))}
-
-          {/* <TouchableOpacity className={`border rounded-[12px] w-[100px] h-[100px] items-center justify-center ${selectedSizes === '3kg - 10kg' ? 'border-[#00997D]' : 'border-[#E8E6EA]'}`} onPress={() => setSelectedSizes('3kg - 10kg')}>
-            <View className="flex-row items-center">
-              <Image source={require('../../assets/app/green_box.png')} />
-              <Image source={require('../../assets/app/green_box.png')} />
-            </View>
-            <Text className="text-[#414A53] text-sm leading-[21px] pt-[5px]">{`3kg - 10kg`}</Text>
-          </TouchableOpacity> */}
-
-          {/* <TouchableOpacity className={`border rounded-[12px] w-[100px] h-[100px] items-center justify-center ${selectedSizes === '> 10kg' ? 'border-[#00997D]' : 'border-[#E8E6EA]'}`} onPress={() => setSelectedSizes('> 10kg')}>
-            <View className="items-center">
-              <Image source={require('../../assets/app/gray_box.png')} className="w-[16px] h-[16px]" />
-              <View className="flex-row">
-                <Image source={require('../../assets/app/gray_box.png')} className="w-[16px] h-[16px]" />
-                <Image source={require('../../assets/app/gray_box.png')} className="w-[16px] h-[16px]" />
-              </View>
-            </View>
-            <Text className="text-[#414A53] text-sm leading-[21px] pt-[5px]">{`> 10kg`}</Text>
-          </TouchableOpacity> */}
         </View>
       </View>
 
