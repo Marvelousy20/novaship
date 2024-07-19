@@ -15,10 +15,13 @@ type RegisterUserType = {
   phoneNumber: string;
 };
 
+type verifyToken = {
+  token: string;
+};
+
 // create function to return promise
 
 // Login
-
 const loginUser = async ({ userName, password }: LoginType) => {
   const response = await axios.post(`${api}/login`, {
     userName,
@@ -46,9 +49,22 @@ const registerUser = async ({
   return response.data;
 };
 
+// VerifyEmail
+const verifyOtp = async ({ token }: verifyToken) => {
+  const response = await axios.post(`${api}/email/verify`, { token });
+
+  return response.data;
+};
+
+const resendOtp = async ({ email }: { email: string }) => {
+  const response = await axios.post(`${api}/resend-email`, { email });
+
+  return response.data;
+};
+
 // Logout
 const Logout = () => {
   localStorage.removeItem("user");
 };
 
-export { loginUser, registerUser, Logout };
+export { loginUser, registerUser, Logout, verifyOtp, resendOtp };

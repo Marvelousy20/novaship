@@ -16,6 +16,7 @@ import * as Yup from "yup";
 import { Formik } from "formik";
 import { registerUser } from "../(services)/api/api";
 import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "expo-router";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required("Email is required").email().label("Email"),
@@ -28,15 +29,17 @@ const validationSchema = Yup.object().shape({
   phoneNumber: Yup.string()
     .required("Phone number is required")
     .label("Phone Number"),
-  // agreeToTerms: Yup.boolean()
-  //   .required("You must agree to the terms and conditions")
-  //   .oneOf([true], "You must agree to the terms and conditions"),
-  // understandWithdrawal: Yup.boolean()
-  //   .required("You must acknowledge the right of withdrawal")
-  //   .oneOf([true], "You must acknowledge the right of withdrawal"),
+  agreeToTerms: Yup.boolean()
+    .required("You must agree to the terms and conditions")
+    .oneOf([true], "You must agree to the terms and conditions"),
+  understandWithdrawal: Yup.boolean()
+    .required("You must acknowledge the right of withdrawal")
+    .oneOf([true], "You must acknowledge the right of withdrawal"),
 });
 
 const SignIn = () => {
+  const router = useRouter();
+
   const mutation = useMutation({
     mutationFn: registerUser,
     mutationKey: ["register"],
@@ -54,25 +57,27 @@ const SignIn = () => {
               userName: "",
               password: "",
               phoneNumber: "",
-              // agreeToTerms: false,
-              // understandWithdrawal: false,
+              agreeToTerms: false,
+              understandWithdrawal: false,
             }}
             onSubmit={(values) => {
               console.log(values);
+              if (!values.agreeToTerms || !values.understandWithdrawal) {
+                alert("You must agree to all terms before registering.");
+                return; // Prevent the submission if not agreed
+              }
+
+              const { agreeToTerms, understandWithdrawal, ...formData } =
+                values;
+              console.log("Submitting", formData);
               mutation
-                .mutateAsync(values)
+                .mutateAsync(formData)
                 .then((data) => {
-                  mutation
-                    .mutateAsync(values)
-                    .then((data) => {
-                      console.log("data", data);
-                    })
-                    .catch((error) => {
-                      console.log("error", error);
-                    });
+                  console.log("Registration successful", data);
+                  router.push("/verifyOtp");
                 })
                 .catch((error) => {
-                  console.log("error", error);
+                  console.log("Registration failed", error);
                 });
             }}
             validationSchema={validationSchema}
@@ -196,7 +201,7 @@ const SignIn = () => {
                   <View className="w-1.5 h-1.5 rounded-full bg-[#DEE2DD]" />
                 </View>
 
-                {/* <View className="flex-row gap-x-2.5 max-w-[330px] mt-6">
+                <View className="flex-row gap-x-2.5 max-w-[330px] mt-6">
                   <View className="mt-1">
                     <CustomCheckbox
                       checked={values.agreeToTerms}
@@ -215,9 +220,9 @@ const SignIn = () => {
                   <Text className="text-red-500 text-[12px] mb-6">
                     {errors.agreeToTerms}
                   </Text>
-                )} */}
+                )}
 
-                {/* <View className="flex-row gap-x-2.5 mt-6 max-w-[330px]">
+                <View className="flex-row gap-x-2.5 mt-6 max-w-[330px]">
                   <View className="mt-1">
                     <CustomCheckbox
                       checked={values.understandWithdrawal}
@@ -241,7 +246,7 @@ const SignIn = () => {
                     <Text className="text-red-500 text-[12px] mb-6">
                       {errors.understandWithdrawal}
                     </Text>
-                  )} */}
+                  )}
 
                 <View className="flex-row items-center justify-center mt-6">
                   <View className="w-1.5 h-1.5 rounded-full bg-[#DEE2DD]" />
