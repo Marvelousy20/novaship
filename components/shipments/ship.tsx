@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import CustomTextInput from "../CustomTextInput";
 
 export default function Ship({ navigation }: any) {
   const handleClick = function () {

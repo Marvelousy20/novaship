@@ -43,11 +43,11 @@ const CustomTextInput = ({
         </Text>
       </View>
 
-      <View className="border border-[#E8E6EA] rounded-xl px-[15px] py-4 flex-row items-center -z-10">
+      <View className="border border-[#E8E6EA] rounded-xl px-[15px] flex-row items-center -z-10">
         <TextInput
           placeholder={placeholder}
           secureTextEntry={isPasswordVisible}
-          className="flex-1 text-base text-gray-700"
+          className="flex-1 text-base text-gray-700 h-[58px]"
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           onChangeText={onChangeText}

@@ -14,6 +14,8 @@ import { useRouter } from "expo-router";
 import { useMutation } from "@tanstack/react-query";
 import { api, loginUser } from "../(services)/api/api";
 import axios from "axios";
+import Toast from "../../components/Toast";
+import { useState } from "react";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required("Email is required").email().label("Email"),
@@ -24,14 +26,19 @@ const validationSchema = Yup.object().shape({
 });
 
 const Login = () => {
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("Login successful");
+
   const router = useRouter();
-  const { mutate, isPending } = useMutation({
+  const { mutate, isPending, error } = useMutation({
     mutationFn: async (data: { email: string; password: string }) => {
-      await axios.patch(`${api}/login`, data);
+      await axios.post(`${api}/login`, data);
     },
     mutationKey: ["verify"],
     onSuccess(data) {
       console.log("Successfully", data);
+      setToastMessage("Login Successful");
+      setShowToast(true);
       router.push("/(tabs)/track");
     },
 
@@ -121,7 +128,7 @@ const Login = () => {
                 <ActivityIndicator
                   size="small"
                   color="white"
-                  className="bg-green text-white px-6 rounded-[30px] min-h-[55px] justify-center items-center"
+                  className="bg-green text-white px-6 rounded-[30px] min-h-[55px] justify-center items-center mt-5"
                 />
               ) : (
                 <View className="mt-5">
@@ -186,6 +193,13 @@ const Login = () => {
           .
         </Text>
       </View>
+      {showToast && (
+        <Toast
+          message={toastMessage}
+          isVisible={showToast}
+          type={error ? "error" : "success"}
+        />
+      )}
     </View>
   );
 };

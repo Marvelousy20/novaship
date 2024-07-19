@@ -9,10 +9,13 @@ import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useMenu } from "../context/MenuContext";
+import { useNavigation } from "@react-navigation/native";
+
+// const { setIsMenuOpen }
 
 export default function DetailsHeader() {
   const { setIsMenuOpen } = useMenu();
-
+  const navigate = useNavigation();
   return (
     <View className="">
       <View className="">
@@ -25,13 +28,15 @@ export default function DetailsHeader() {
         <SafeAreaView className="">
           <View className="px-4">
             <View className="flex-row justify-between items-center gap-6">
-              <View className="border rounded-xl p-3 border-[#E8E6EA]">
-                <Ionicons
-                  name="chevron-back-outline"
-                  size={24}
-                  color={"#00997D"}
-                />
-              </View>
+              <TouchableOpacity onPress={() => navigate.goBack()}>
+                <View className="border rounded-xl p-3 border-[#E8E6EA]">
+                  <Ionicons
+                    name="chevron-back-outline"
+                    size={24}
+                    color={"#00997D"}
+                  />
+                </View>
+              </TouchableOpacity>
 
               <View>
                 <TouchableOpacity onPress={() => setIsMenuOpen(true)}>
