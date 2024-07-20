@@ -5,16 +5,13 @@ export default function Payment({ navigation }: any) {
     <View className="flex-1 pt-[44px]">
       <ScrollView className="flex-1 mb-[30px] px-[15px]">
         <View className="flex-row justify-between items-center">
-          <TouchableOpacity
-            className="p-[14px] rounded-[10px] border border-[#E8E6EA]"
-            onPress={() => navigation.goBack()}
-          >
-            <Image source={require("../../assets/app/caretLeft.png")} />
-          </TouchableOpacity>
+          <View className="flex-row items-center gap-[23px]">
+            <TouchableOpacity className="p-[14px] rounded-[10px] border border-[#E8E6EA]" onPress={() => navigation.goBack()}>
+              <Image source={require('../../assets/app/caretLeft.png')} />
+            </TouchableOpacity>
 
-          <Text className="text-xl leading-[24.2px] text-center font-semibold">
-            Payment
-          </Text>
+            <Text className="text-xl leading-[24.2px] text-center font-semibold">Payment</Text>
+          </View>
 
           <View>
             <Image source={require("../../assets/app/burger2.png")} />
@@ -22,18 +19,9 @@ export default function Payment({ navigation }: any) {
         </View>
 
         <View className="mt-5 flex-row justify-around items-center">
-          {/* come back to this later */}
-          <Image
-            source={require("../../assets/app/dotted_lines.png")}
-            className="absolute "
-          />
-          <TouchableOpacity
-            onPress={() => navigation.navigate("SendPackage")}
-            className="items-center"
-          >
-            <Image
-              source={require("../../assets/app/packageProgressGreen.png")}
-            />
+          <Image source={require('../../assets/app/dotted_lines.png')} className="absolute top-[10px]" />
+          <TouchableOpacity onPress={() => navigation.navigate('SendPackage')} className="items-center">
+            <Image source={require('../../assets/app/packageProgressGreen.png')} />
             <Text>Parcel</Text>
           </TouchableOpacity>
 
@@ -62,6 +50,7 @@ export default function Payment({ navigation }: any) {
           <Text className="text-sm leading-[21px]">Your Order</Text>
 
           <View className="bg-[#4E5156] px-[15px] py-4 rounded-[12px] mt-5 mb-[30px]">
+            <Image source={require('../../assets/app/vertical_dotted_lines.png')} className="absolute left-[25px] top-4" />
             <View className="items-start flex-row gap-[9px] mb-[30px]">
               <Image
                 source={require("../../assets/app/packageProgressGreen.png")}
@@ -131,14 +120,14 @@ export default function Payment({ navigation }: any) {
               <View className="w-[18px] h-[18px] rounded-full border border-[#00997D]"></View>
             </View>
 
-            <View className="flex-row justify-between items-center">
+            <TouchableOpacity onPress={() => navigation.navigate('ConnectWallet')} className="flex-row justify-between items-center">
               <View className="flex-row gap-5 items-center">
                 <Image source={require("../../assets/app/crypto_icon.png")} />
                 <Text className="text-sm leading-[16.94px]">Crypto Wallet</Text>
               </View>
 
               <View className="w-[18px] h-[18px] rounded-full border border-[#00997D]"></View>
-            </View>
+            </TouchableOpacity>
           </View>
 
           {/* divider */}

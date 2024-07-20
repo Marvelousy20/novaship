@@ -27,10 +27,14 @@ const validationSchema = Yup.object().shape({
 
 const Login = () => {
   const [showToast, setShowToast] = useState(false);
-  const [toastMessage, setToastMessage] = useState("Login successful");
+  const [toastMessage, setToastMessage] = useState("");
+  const [toastType, setShowToastType] = useState<"success" | "error">(
+    "success"
+  );
 
   const router = useRouter();
-  const { mutate, isPending, error } = useMutation({
+
+  const { mutate, isPending } = useMutation({
     mutationFn: async (data: { email: string; password: string }) => {
       await axios.post(`${api}/login`, data);
     },
@@ -38,13 +42,22 @@ const Login = () => {
     onSuccess(data) {
       console.log("Successfully", data);
       setToastMessage("Login Successful");
+      setShowToastType("success");
       setShowToast(true);
-      router.push("/(tabs)/track");
+      setTimeout(() => {
+        setShowToast(false);
+        router.push("/(tabs)/track");
+      }, 3000);
     },
 
     onError(error) {
       const errorData = error as any;
-
+      setToastMessage("Login Failed");
+      setShowToastType("error");
+      setShowToast(true);
+      setTimeout(() => {
+        setShowToast(false);
+      }, 3000);
       const errorObject = errorData;
       let errorMessage;
 
@@ -65,7 +78,7 @@ const Login = () => {
   const handleSubmit = (values: any) => {
     console.log("login: ", values);
     mutate({
-      email: values.email,
+      email: values.email.toLowerCase(),
       password: values.password,
     });
   };
@@ -193,12 +206,9 @@ const Login = () => {
           .
         </Text>
       </View>
+
       {showToast && (
-        <Toast
-          message={toastMessage}
-          isVisible={showToast}
-          type={error ? "error" : "success"}
-        />
+        <Toast message={toastMessage} isVisible={showToast} type={toastType} />
       )}
     </View>
   );
