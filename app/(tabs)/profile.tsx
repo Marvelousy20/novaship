@@ -19,6 +19,7 @@ import { useNavigation } from "@react-navigation/native";
 
 const ProfileTab = () => {
   const { setIsMenuOpen } = useMenu();
+
   const navigation = useNavigation();
 
   return (

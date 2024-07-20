@@ -1,6 +1,51 @@
 import axios from "axios";
+import { useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useMenu } from "../../../context/MenuContext";
+
+// const [toke, setToken] = useState("");
+// useEffect(() => {
+//   const getData = async () => {
+//     try {
+//       const jsonValue = await AsyncStorage.getItem("verifiedEmail");
+//       if (jsonValue != null) {
+//         const data = JSON.parse(jsonValue);
+
+//         // Extract user token from the nested structure
+//         const userToken = data?.data?.token;
+//         setToken(userToken);
+//         console.log("usertoken:", toke);
+//       }
+//     } catch (e) {
+//       console.error("Failed to fetch the data from storage", e);
+//     }
+//   };
+
+//   getData();
+// }, []);
+
+// export const api = axios.create({
+//   baseURL: process.env.NEXT_PUBLIC_BASE_URL as string,
+//   headers: {
+//     "Content-Type": "application/json",
+//   },
+// });
+
+// api.interceptors.request.use(
+//   (config) => {
+//     const { token } = useMenu();
+//     if (token) {
+//       config.headers.Authorization = `Bearer ${token}`;
+//     }
+//     return config;
+//   },
+//   (error) => {
+//     Promise.reject(error);
+//   }
+// );
 
 export const api = `https://novaship.onrender.com/user`;
+export const auth = `https://novaship.onrender.com/`;
 
 type LoginType = {
   userName: string;
@@ -22,14 +67,6 @@ type verifyToken = {
 // create function to return promise
 
 // Login
-const loginUser = async ({ userName, password }: LoginType) => {
-  const response = await axios.post(`${api}/login`, {
-    userName,
-    password,
-  });
-
-  return response.data;
-};
 
 const registerUser = async ({
   fullName,
@@ -49,22 +86,9 @@ const registerUser = async ({
   return response.data;
 };
 
-// VerifyEmail
-const verifyOtp = async ({ token }: verifyToken) => {
-  const response = await axios.post(`${api}/email/verify`, { token });
-
-  return response.data;
-};
-
-const resendOtp = async ({ email }: { email: string }) => {
-  const response = await axios.post(`${api}/resend-email`, { email });
-
-  return response.data;
-};
-
 // Logout
 const Logout = () => {
   localStorage.removeItem("user");
 };
 
-export { loginUser, registerUser, Logout, verifyOtp, resendOtp };
+export { registerUser, Logout };

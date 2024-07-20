@@ -12,7 +12,7 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import { useRouter } from "expo-router";
 import { useMutation } from "@tanstack/react-query";
-import { api, loginUser } from "../(services)/api/api";
+import { api } from "../(services)/api/api";
 import axios from "axios";
 import Toast from "../../components/Toast";
 import { useState } from "react";
@@ -38,7 +38,7 @@ const Login = () => {
     mutationFn: async (data: { email: string; password: string }) => {
       await axios.post(`${api}/login`, data);
     },
-    mutationKey: ["verify"],
+    mutationKey: ["login"],
     onSuccess(data) {
       console.log("Successfully", data);
       setToastMessage("Login Successful");

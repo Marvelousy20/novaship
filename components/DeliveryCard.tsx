@@ -7,11 +7,10 @@ import { Delivery } from "../type";
 
 const DeliveryCard = ({
   id,
-  vendor,
-  date,
-  trackingNumber,
-  progress,
+  image,
+  shipmentProgress,
   status,
+  createdAt,
 }: Delivery) => {
   return (
     <Link href={`/track/${id}`}>
@@ -26,7 +25,7 @@ const DeliveryCard = ({
 
           <View className="space-y-0.5 flex-1">
             <View className="flex flex-row justify-between">
-              <Text className="text-sm">{vendor}</Text>
+              <Text className="text-sm">{}</Text>
               <Ionicons
                 name="chevron-forward-outline"
                 size={24}
