@@ -14,17 +14,47 @@ import ProgressBar from "../../components/ProgressBar";
 import { Ionicons } from "@expo/vector-icons";
 import { useMenu } from "../../context/MenuContext";
 import HamburgerMenu from "../../components/Hamburger";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { auth } from "../(services)/api/api";
 
 const TrackDetail = () => {
   const { id } = useLocalSearchParams();
+
+  const { data, isPending } = useQuery({
+    queryFn: async () => {
+      const response = await axios.get(`${auth}shipment/${id}/track`);
+      return response.data?.data?.shipments;
+    },
+    queryKey: ["shipment"],
+    // select: (data) => data?.data,
+  });
+
+  console.log(id);
 
   const [isShipmentOpen, setIsShipmentOpen] = useState(false);
   const [isShipmentProgressOpen, setIsShipmentProgressOpen] = useState(false);
   const { isMenuOpen, setIsMenuOpen } = useMenu();
 
+  const calculateProgress = (status: any) => {
+    switch (status) {
+      case "delivered":
+        return 100;
+      case "shipped":
+        return 50;
+      case "delayed":
+        return 25;
+      default:
+        return 0;
+    }
+  };
+
   return (
     <View className="flex-1">
-      <DetailsHeader />
+      <DetailsHeader
+        vendor={data[0].enterpriseId.name}
+        logo={data[0].enterpriseId.logo}
+      />
 
       <View className="flex-1">
         <ScrollView>
@@ -33,19 +63,19 @@ const TrackDetail = () => {
               Scheduled Delivery
             </Text>
 
-            <Text className="mt-2.5">Today, Thursaday, June 09, 2024</Text>
-            <Text>11:00 am - 2:00 pm</Text>
+            <Text className="mt-2.5">{data[0].deliveryDate}</Text>
+            <Text>{}</Text>
 
             <View className="mt-6">
               <Text>Tracking Number</Text>
 
-              <Text className="mt-2.5">9Z8765Y423PL4567</Text>
+              <Text className="mt-2.5">{data[0].trackingId}</Text>
             </View>
 
             <View className="mt-6">
               <Text>Status</Text>
-              <Text className="mt-2.5">Out For Delivery</Text>
-              <ProgressBar progress={70} />
+              <Text className="mt-2.5 capitalize">{data[0].status}</Text>
+              <ProgressBar progress={calculateProgress(data[0].status)} />
               <TouchableOpacity className="mt-2.5 rounded-[30px] bg-green w-[103px] items-center">
                 <Text className="text-[12px]  text-white inline-flex py-[5px]">
                   Live Map
@@ -92,7 +122,7 @@ const TrackDetail = () => {
                       Service
                     </Text>
                     <Text className="underline text-white text-[12px] mt-2.5">
-                      NovaShip Ground
+                      {data[0].service}
                     </Text>
                   </View>
 
@@ -101,7 +131,7 @@ const TrackDetail = () => {
                       Weight
                     </Text>
                     <Text className="underline text-white text-[12px] mt-2.5">
-                      3.80LBS
+                      {data[0].weight}
                     </Text>
                   </View>
 
@@ -110,7 +140,7 @@ const TrackDetail = () => {
                       Shipment Category
                     </Text>
                     <Text className="underline text-white text-[12px] mt-2.5">
-                      Package
+                      {data[0].category}
                     </Text>
                   </View>
                 </View>

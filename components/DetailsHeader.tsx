@@ -13,7 +13,13 @@ import { useNavigation } from "@react-navigation/native";
 
 // const { setIsMenuOpen }
 
-export default function DetailsHeader() {
+export default function DetailsHeader({
+  vendor,
+  logo,
+}: {
+  vendor: string;
+  logo: string;
+}) {
   const { setIsMenuOpen } = useMenu();
   const navigate = useNavigation();
   return (
@@ -21,7 +27,7 @@ export default function DetailsHeader() {
       <View className="">
         <ImageBackground
           source={require("../assets/app/Top.png")}
-          className="absolute top-0 w-full h-[245px]"
+          className="absolute top-0 w-full h-[225px]"
           resizeMode="cover"
         />
 
@@ -48,11 +54,14 @@ export default function DetailsHeader() {
             <View className="flex-row justify-between mt-10 items-center">
               <View>
                 <Text className="text-white text-sm">Your shipment from</Text>
-                <Text className="text-white font-semibold">Amazon</Text>
+                <Text className="text-white font-semibold">{vendor}</Text>
               </View>
 
               <View className="mt-0.5">
-                <Image source={require("../assets/app/amazon.png")} />
+                <Image
+                  source={{ uri: logo }}
+                  className="w-[50px] h-[50px] rounded-lg"
+                />
               </View>
             </View>
           </View>

@@ -5,7 +5,19 @@ import { Delivery } from "../../type";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { api, auth } from "../../app/(services)/api/api";
-import { allShipment, Shipment } from "../../types/type";
+import { allShipment } from "../../types/type";
+
+interface Shipment {
+  id: string;
+  enterpriseId: {
+    name: string;
+    logo: string;
+  };
+  deliveryDate: string;
+  status: string;
+  trackingId: string;
+  weight: string;
+}
 
 const deliveries: Delivery[] = [
   {
@@ -29,13 +41,25 @@ const deliveries: Delivery[] = [
 const Track = () => {
   const { data, isPending } = useQuery({
     queryFn: async () => {
-      return await axios.get<allShipment>(`${auth}shipment/user/list`);
+      const response = await axios.get(`${auth}shipment/user/list`);
+      return response.data?.data?.shipments;
     },
     queryKey: ["shipment"],
-    select: (data) => data?.data,
+    // select: (data) => data?.data,
   });
 
-  console.log("shipping:", data);
+  function calculateProgress(status: string): number {
+    switch (status) {
+      case "delivered":
+        return 100;
+      case "shipped":
+        return 50;
+      case "delayed":
+        return 25;
+      default:
+        return 0;
+    }
+  }
   return (
     <ScrollView>
       <View className="flex-1">
@@ -44,8 +68,19 @@ const Track = () => {
         </Text>
 
         <View className="px-4 mt-4">
-          {data?.shipments?.map((delivery) => (
-            <DeliveryCard key={delivery.id} {...delivery} />
+          {data?.map((shipment: Shipment) => (
+            <DeliveryCard
+              key={shipment.id}
+              delivery={{
+                id: shipment.id,
+                vendor: shipment.enterpriseId.name,
+                date: shipment.deliveryDate,
+                trackingNumber: shipment.trackingId,
+                status: shipment.status,
+                progress: calculateProgress(shipment.status), // Assuming you have a way to calculate progress
+                logo: shipment.enterpriseId.logo,
+              }}
+            />
           ))}
         </View>
       </View>
