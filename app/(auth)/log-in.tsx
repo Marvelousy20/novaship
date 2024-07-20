@@ -12,7 +12,7 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import { useRouter } from "expo-router";
 import { useMutation } from "@tanstack/react-query";
-import { api, loginUser } from "../(services)/api/api";
+import { api } from "../(services)/api/api";
 import axios from "axios";
 
 const validationSchema = Yup.object().shape({
@@ -27,9 +27,9 @@ const Login = () => {
   const router = useRouter();
   const { mutate, isPending } = useMutation({
     mutationFn: async (data: { email: string; password: string }) => {
-      await axios.patch(`${api}/login`, data);
+      await axios.post(`${api}/login`, data);
     },
-    mutationKey: ["verify"],
+    mutationKey: ["login"],
     onSuccess(data) {
       console.log("Successfully", data);
       router.push("/(tabs)/track");

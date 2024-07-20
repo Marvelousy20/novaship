@@ -1,8 +1,7 @@
 export interface Delivery {
   id: string;
-  vendor: string;
-  date: string;
-  trackingNumber: string;
-  progress: number;
+  image: string;
+  createdAt: string;
+  shipmentProgress: string;
   status: string;
 }

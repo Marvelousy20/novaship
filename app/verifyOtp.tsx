@@ -4,7 +4,7 @@ import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import OTPInput from "../components/OTPInput";
 import CustomButton from "../components/CustomButton";
-import { api, resendOtp, verifyOtp } from "../app/(services)/api/api";
+import { api } from "../app/(services)/api/api";
 import { useMutation } from "@tanstack/react-query";
 import ToastManager, { Toast } from "toastify-react-native";
 import axios from "axios";

@@ -2,6 +2,10 @@ import { View, Text, ScrollView } from "react-native";
 import React from "react";
 import DeliveryCard from "../DeliveryCard";
 import { Delivery } from "../../type";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { api, auth } from "../../app/(services)/api/api";
+import { allShipment, Shipment } from "../../types/type";
 
 const deliveries: Delivery[] = [
   {
@@ -23,6 +27,15 @@ const deliveries: Delivery[] = [
 ];
 
 const Track = () => {
+  const { data, isPending } = useQuery({
+    queryFn: async () => {
+      return await axios.get<allShipment>(`${auth}shipment/user/list`);
+    },
+    queryKey: ["shipment"],
+    select: (data) => data?.data,
+  });
+
+  console.log("shipping:", data);
   return (
     <ScrollView>
       <View className="flex-1">
@@ -31,7 +44,7 @@ const Track = () => {
         </Text>
 
         <View className="px-4 mt-4">
-          {deliveries.map((delivery) => (
+          {data?.shipments?.map((delivery) => (
             <DeliveryCard key={delivery.id} {...delivery} />
           ))}
         </View>
