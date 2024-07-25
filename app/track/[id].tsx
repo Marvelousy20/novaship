@@ -22,15 +22,20 @@ const TrackDetail = () => {
   const { id } = useLocalSearchParams();
 
   const { data, isPending } = useQuery({
+    queryKey: ["shipment", id],
     queryFn: async () => {
-      const response = await axios.get(`${auth}shipment/${id}/track`);
-      return response.data?.data?.shipments;
+      try {
+        const response = await axios.get(`${auth}shipment/${id}/track`);
+        return response?.data;
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        return [];
+      }
     },
-    queryKey: ["shipment"],
-    // select: (data) => data?.data,
   });
 
-  console.log(id);
+  const responseData = data?.data?.shipment;
+  console.log(responseData);
 
   const [isShipmentOpen, setIsShipmentOpen] = useState(false);
   const [isShipmentProgressOpen, setIsShipmentProgressOpen] = useState(false);
@@ -52,8 +57,8 @@ const TrackDetail = () => {
   return (
     <View className="flex-1">
       <DetailsHeader
-        vendor={data[0].enterpriseId.name}
-        logo={data[0].enterpriseId.logo}
+        vendor={responseData?.enterpriseId?.name}
+        logo={responseData?.enterpriseId?.logo}
       />
 
       <View className="flex-1">
@@ -63,19 +68,18 @@ const TrackDetail = () => {
               Scheduled Delivery
             </Text>
 
-            <Text className="mt-2.5">{data[0].deliveryDate}</Text>
-            <Text>{}</Text>
+            <Text className="mt-2.5">{responseData?.deliveryDate}</Text>
 
             <View className="mt-6">
               <Text>Tracking Number</Text>
 
-              <Text className="mt-2.5">{data[0].trackingId}</Text>
+              <Text className="mt-2.5">{responseData?.trackingId}</Text>
             </View>
 
             <View className="mt-6">
               <Text>Status</Text>
-              <Text className="mt-2.5 capitalize">{data[0].status}</Text>
-              <ProgressBar progress={calculateProgress(data[0].status)} />
+              <Text className="mt-2.5 capitalize">{responseData?.status}</Text>
+              <ProgressBar progress={calculateProgress(responseData?.status)} />
               <TouchableOpacity className="mt-2.5 rounded-[30px] bg-green w-[103px] items-center">
                 <Text className="text-[12px]  text-white inline-flex py-[5px]">
                   Live Map
@@ -122,7 +126,7 @@ const TrackDetail = () => {
                       Service
                     </Text>
                     <Text className="underline text-white text-[12px] mt-2.5">
-                      {data[0].service}
+                      {responseData?.service}
                     </Text>
                   </View>
 
@@ -131,7 +135,7 @@ const TrackDetail = () => {
                       Weight
                     </Text>
                     <Text className="underline text-white text-[12px] mt-2.5">
-                      {data[0].weight}
+                      {responseData?.weight}
                     </Text>
                   </View>
 
@@ -140,7 +144,7 @@ const TrackDetail = () => {
                       Shipment Category
                     </Text>
                     <Text className="underline text-white text-[12px] mt-2.5">
-                      {data[0].category}
+                      {responseData?.category}
                     </Text>
                   </View>
                 </View>

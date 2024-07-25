@@ -18,8 +18,14 @@ interface DeliveryProps {
 }
 
 const DeliveryCard = ({ delivery }: DeliveryProps) => {
+  // /track/${delivery.trackingNumber}
   return (
-    <Link href={`/track/${delivery.id}`}>
+    <Link
+      href={{
+        pathname: "/track/[id]",
+        params: { id: delivery.trackingNumber },
+      }}
+    >
       <View className="border border-[#E8E6EA] rounded-xl p-4 w-full mb-5">
         <View className="flex-row space-x-4 w-full">
           <View>

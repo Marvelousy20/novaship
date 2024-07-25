@@ -60,6 +60,9 @@ const Track = () => {
         return 0;
     }
   }
+
+  console.log(data);
+
   return (
     <ScrollView>
       <View className="flex-1">
@@ -72,7 +75,7 @@ const Track = () => {
             <DeliveryCard
               key={shipment.id}
               delivery={{
-                id: shipment.id,
+                id: shipment.trackingId,
                 vendor: shipment.enterpriseId.name,
                 date: shipment.deliveryDate,
                 trackingNumber: shipment.trackingId,

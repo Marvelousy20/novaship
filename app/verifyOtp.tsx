@@ -42,7 +42,7 @@ export default function VerifyOtp() {
     getData();
   }, []);
 
-  console.log("email:", email);
+  // console.log("email:", email);
   const handleOtpChange = (otp: string) => {
     setOtp(otp);
   };
@@ -58,7 +58,7 @@ export default function VerifyOtp() {
     },
     mutationKey: ["verify"],
     onSuccess() {
-      console.log("Successfully");
+      // console.log("Successfully");
       // toast.success("Email verified, you can sign-in now");
       push("/(auth)/log-in");
     },
