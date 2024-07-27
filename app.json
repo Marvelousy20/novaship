@@ -5,6 +5,7 @@
     "scheme": "novaship",
     "version": "1.0.0",
     "orientation": "portrait",
+    "owner": "marviorg",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
@@ -13,7 +14,8 @@
       "backgroundColor": "#ffffff"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/f4cfddeb-5dae-4123-964d-f3e7e89df215"
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
@@ -22,7 +24,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#FFFFFF"
       },
       "package": "com.aadipoddar.upsexpo"
@@ -36,8 +38,11 @@
         "origin": false
       },
       "eas": {
-        "projectId": "00d0f148-e7b8-49e4-a82d-a8f88041d0dd"
+        "projectId": "f4cfddeb-5dae-4123-964d-f3e7e89df215"
       }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
     }
   }
 }
