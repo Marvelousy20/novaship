@@ -30,7 +30,7 @@
       "package": "com.aadipoddar.upsexpo"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/icon.png"
     },
     "plugins": ["expo-router", "expo-font"],
     "extra": {
